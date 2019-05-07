@@ -20,11 +20,11 @@ USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, lik
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 SCHEDULER_PERSIST = True
-REDIS_HOST = 'localhost'
+REDIS_HOST = '127.0.0.1'   #本地redis数据库
 REDIS_PARAMS = {
             'password': '123456',
         }
-REDIS_PORT = 6379
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'TeachSpider (+http://www.yourdomain.com)'
@@ -75,9 +75,9 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'TeachSpider.pipelines.TeachspiderPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'TeachSpider.pipelines.TeachspiderPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
