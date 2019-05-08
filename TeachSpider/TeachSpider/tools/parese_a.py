@@ -4,8 +4,7 @@
 # @File    : get_all_a-百度学术信息挖掘
 from lxml import etree
 from urllib.parse import urljoin
-from TeachSpider.TeachSpider.tools.hanlp import hanlp as han
-
+from tools.hanlp import hanlp as han
 
 class parese_a(object):
     def __init__(self,chrome):
@@ -37,12 +36,9 @@ class parese_a(object):
         # print(element.xpath(xpaths))
         return "".join("".join(element.xpath(xpaths)).strip().split())
 
-    def dispose(self):
-        self.chrome.quit()
 
 if __name__ == '__main__':
     from TeachSpider.TeachSpider.tools.chromes import NoProxy_Chrome as chrome
     parese = parese_a(chrome=chrome().get_chrome())
     all_a=parese.set_url("http://mgx.imu.edu.cn/szdw/mgyywxx.htm")
     print(all_a)
-    parese.dispose()  #记得用退出

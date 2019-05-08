@@ -16,16 +16,6 @@ NEWSPIDER_MODULE = 'TeachSpider.spiders'
 LOG_LEVEL="ERROR"
 USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.131 Safari/537.36"
 
-#redis配置
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
-SCHEDULER_PERSIST = True
-REDIS_HOST = '127.0.0.1'   #本地redis数据库
-REDIS_PARAMS = {
-            'password': '123456',
-        }
-
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'TeachSpider (+http://www.yourdomain.com)'
 
