@@ -4,8 +4,46 @@
 # @File    : format-教师信息挖掘
 
 import w3lib.html as w3
+import hashlib
+from pypinyin import *
 
-class format(object):
+
+class format(Exception):
+
+
+
+    @classmethod
+    def tranPinyin(cls, s):
+        return_list = []
+        english_name_list = lazy_pinyin(s)
+        s1 = english_name_list[0] + ' '
+        for index in range(1, len(english_name_list)):
+            s1 += english_name_list[index]
+        return_list.append(s1)
+        # 姓名倒序的拼音名字
+        s2 = ''
+        for index in range(1, len(english_name_list)):
+            s2 += english_name_list[index]
+        s2 += ' ' + english_name_list[0]
+        return_list.append(s2)
+        return return_list
+
+    @classmethod
+    def getMd5(cls,s):
+        try:
+            if(type(s) is not type("")):
+                raise format()
+            try:
+                m2 = hashlib.md5()
+                m2.update(s.encode("utf-8"))
+                return m2.hexdigest()
+            except Exception as he:
+                print("he",he)
+                return None
+        except format as e:
+            print("传入的待加密的MD5字符串不是str类型")
+            return None
+
     @classmethod
     def normalizeTool(cls,html):
         '''
@@ -13,6 +51,7 @@ class format(object):
         :return: 去掉html代码的字符串
         '''
         removeHtml = w3.replace_escape_chars(w3.replace_entities(w3.remove_tags(html)), replace_by=" ")
+        # removeHtml = w3.replace_escape_chars(w3.replace_entities(w3.remove_tags(html)))
         removeEscapeChars = " ".join(removeHtml.split())
         return removeEscapeChars
 
@@ -39,3 +78,5 @@ class format(object):
         '''
         import re
         return bool(re.search('[a-zA-Z]', str))
+if __name__ == '__main__':
+    print(format.getMd5("hello"))

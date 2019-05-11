@@ -8,6 +8,10 @@ import re
 class zhengze():
 
     @classmethod
+    def preclean(cls,s):
+        return  re.sub('<[^<]+?>', '', s).replace('\n', '').strip()
+
+    @classmethod
     def getSchoolName(cls,s):
         '''
         :param s: 学校名_学院名
@@ -43,12 +47,15 @@ class zhengze():
         # demo:s=邮箱: ligang @ nju.edu.cn
         # return:[ligang@nju.edu.cn]
         pattern = '\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+(cn|com|edu|net)'
+        # pattern = '^([A-Za-z0-9]*)@([A-Za-z0-9][-A-Za-z0-9]+\.)+(cn|com|edu|net)'
         result = re.search(pattern, s)
         # result = "".join(str(ss) for ss in result_list)
         if result is None:
             return ' '
         else:
+            print(result.group(0))
             return result.group(0)
+
 
     @classmethod
     def getPhoneNum(cls, s):
@@ -71,7 +78,7 @@ class zhengze():
         temp = re.findall(telPattern, s)
         # 去重
         result = {}.fromkeys(temp).keys()
-        result = ''.join(str(ss + '\t') for ss in result)
+        result = '|'.join(str(ss + '\t') for ss in result)
         if result is None:
             return ' '
         else:

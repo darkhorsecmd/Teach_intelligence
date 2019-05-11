@@ -10,11 +10,21 @@ import scrapy
 
 class TeachspiderItem(scrapy.Item):
     # define the fields for your item here like:
-    # name = scrapy.Field()
-    title = scrapy.Field()
-    telnum = scrapy.Field()
-    email = scrapy.Field()
-    phonenum = scrapy.Field()
-    education = scrapy.Field()
-    degree = scrapy.Field()
-    researchfield = scrapy.Field()
+    TalentTitle = scrapy.Field()
+    Tel = scrapy.Field()
+    Email = scrapy.Field()
+    MobilePhone = scrapy.Field()
+    Education = scrapy.Field()
+    Degree = scrapy.Field()
+    ResearchField = scrapy.Field()
+
+    Url = scrapy.Field()
+    MD5= scrapy.Field()
+    NameZh = scrapy.Field()
+    NameEn1 = scrapy.Field()
+    NameEn2 = scrapy.Field()
+    SchoolName1 = scrapy.Field()
+    DepartmentName = scrapy.Field()
+    HtmlBody = scrapy.Field()
+
+    SpiderTime = scrapy.Field()

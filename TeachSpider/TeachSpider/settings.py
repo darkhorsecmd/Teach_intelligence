@@ -66,7 +66,7 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-   'TeachSpider.pipelines.TeachspiderPipeline': 300,
+   'TeachSpider.pipelines.MysqlTwistedPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -89,3 +89,14 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+
+MYSQL_HOST = "127.0.0.1"
+MYSQL_DBNAME = "teach"
+MYSQL_USER = "root"
+MYSQL_PASSWORD = "xqweXQWE"
+
+# MYSQL_HOST = "172.20.27.12"
+# MYSQL_DBNAME = "nsfc_db"
+# MYSQL_USER = "root"
+# MYSQL_PASSWORD = "123456"

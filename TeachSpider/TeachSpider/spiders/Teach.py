@@ -7,6 +7,8 @@ from tools.Get_all import Get_all
 from tools.zhengze import zhengze as zz
 from items import TeachspiderItem as items
 from tools.format import format
+import datetime
+
 
 class TeachSpider(scrapy.Spider):
     name = 'Teach'
@@ -22,23 +24,38 @@ class TeachSpider(scrapy.Spider):
         self.browser.quit()
 
     def parse(self, response):
-        datas = Get_all().get_all()  #  '学校_学院1':[[name,url],[name2,url2]....], '学校_学院2':[[name,url],[name2,url2]....]
-        for School_xueyuan_name,TeachList in datas.items():
-            School_name = zz.get_Info(School_xueyuan_name,"xuexiao")
-            xueyuan_name = zz.get_Info(School_xueyuan_name,"xueyuan")
+        datas = Get_all().get_all()  # '学校_学院1':[[name,url],[name2,url2]....], '学校_学院2':[[name,url],[name2,url2]....]
+        for School_xueyuan_name, TeachList in datas.items():
+            School_name = zz.get_Info(School_xueyuan_name, "xuexiao")
+            xueyuan_name = zz.get_Info(School_xueyuan_name, "xueyuan")
             for Teach in TeachList:
                 name = Teach[0]
                 url = Teach[1]
-                yield scrapy.Request(url=url,callback=self.parseDetail,dont_filter=True,meta={"xuexiao":School_name,"xueyuan":xueyuan_name,"name":name})
+                yield scrapy.Request(url=url, callback=self.parseDetail, dont_filter=True,
+                                     meta={"xuexiao": School_name, "xueyuan": xueyuan_name, "name": name})
 
-    def parseDetail(self,response):
+    def parseDetail(self, response):
         item = items()
-        body = format.normalizeTool(response.text)
-        item['telnum'] = zz.get_Info(body,"telnum")  #电话号码
-        item['title'] = zz.get_Info(body,'title')
-        item['email'] = zz.get_Info(body, 'email')
-        item['phonenum'] = zz.get_Info(body, 'phonenum')
-        item['education'] = zz.get_Info(body, 'education')
-        item['degree'] = zz.get_Info(body, 'degree')
-        item['researchfield'] = zz.get_Info(body, 'researchfield')
-        yield  item
+
+        body = response.text
+        item['HtmlBody'] = body
+
+        item['Tel'] = zz.get_Info(body, "telnum")  # 电话号码
+        item['TalentTitle'] = zz.get_Info(body, 'title')
+        item['Email'] = zz.get_Info(zz.preclean(body), 'email')
+        item['MobilePhone'] = zz.get_Info(body, 'phonenum')
+        item['Education'] = zz.get_Info(body, 'education')
+        item['Degree'] = zz.get_Info(body, 'degree')
+        item['ResearchField'] = zz.get_Info(body, 'researchfield')
+
+        item['SchoolName1'] = response.meta['xuexiao']
+        item['DepartmentName'] = response.meta['xueyuan']
+        item['NameZh'] = response.meta['name']
+        item['NameEn1'] = format.tranPinyin(item['NameZh'])[0]  #正序
+        item['NameEn2'] = format.tranPinyin(item['NameZh'])[1]  #逆序
+
+        item['Url'] = response.url
+        item['MD5'] =format.getMd5(item['NameZh']+item['SchoolName1']+item['DepartmentName']+item['Tel']+item['TalentTitle']+item['Email']+item['MobilePhone']+item['Education']+item['Degree']+item['ResearchField']+response.url)
+        item['SpiderTime'] =datetime.datetime.now().strftime("%Y.%m.%d")
+
+        yield item
