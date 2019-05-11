@@ -7,7 +7,6 @@ from scrapy.cmdline import execute
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # execute(["scrapy","crawl","output.nsfc"])
 execute(["scrapy","crawl","Teach","-s","LOG_FILE=Teach.log"])
-# from scrapy import cmdline
-# import time
-# time_str=time.strftime("%Y-%m-%d-%M-%S",time.localtime(time.time()))
-# cmdline.execute(("scrapy crawl output.nsfc -o "+time_str+".csv -t csv").split())
+
+# TO DO 执行完爬虫后，将SChool_list_data 目录下的所有文件移到 data_read_ok目录
+
